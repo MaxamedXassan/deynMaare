@@ -6,87 +6,106 @@ import AddCustomerForm from "../components/AddCustomerForm";
 import CustomerList from "../components/CustomerList";
 
 interface Customer {
-  id: string;
+  id: number;
   name: string;
   phone: string;
-  created_at: string;
 }
 
-export default function Dashboard() {
-  const [user, setUser] = useState<any>(null);
+export default function DashboardPage() {
   const [customers, setCustomers] = useState<Customer[]>([]);
-  const [filteredCustomers, setFilteredCustomers] = useState<Customer[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [search, setSearch] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState<string | null>(null);
 
+  // ✅ Get current userId
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
-      setUser(data.user);
-      if (data.user) fetchCustomers(data.user.id);
+      if (data.user) setUserId(data.user.id);
     };
     getUser();
   }, []);
 
-  const fetchCustomers = async (userId: string) => {
-    const { data } = await supabase
+  // ✅ Fetch customers
+  const fetchCustomers = async () => {
+    setLoading(true);
+    if (!userId) return;
+    const { data, error } = await supabase
       .from("customers")
       .select("*")
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
-    setCustomers(data as Customer[]);
-    setFilteredCustomers(data as Customer[]);
+    if (!error && data) setCustomers(data);
+    setLoading(false);
   };
 
   useEffect(() => {
-    if (search === "") {
-      setFilteredCustomers(customers);
-    } else {
-      const filtered = customers.filter((c) =>
-        c.phone.includes(search)
-      );
-      setFilteredCustomers(filtered);
-    }
-  }, [search, customers]);
+    if (userId) fetchCustomers();
+  }, [userId]);
+
+  // ✅ Filtered customers
+  const filteredCustomers = customers.filter(
+    (c) =>
+      c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      c.phone.includes(searchTerm)
+  );
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-8 pb-28">
-      <div className="w-full max-w-md px-4">
-        <h1 className="text-2xl font-bold mb-4">DeynMaare Dashboard</h1>
-        {user && <p className="text-gray-700 mb-4">Welcome, {user.email}</p>}
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center p-4">
+      <div className="w-full max-w-lg">
+        {/* Header */}
+        <h1 className="text-2xl font-semibold mb-4 text-center text-gray-800">
+          Customer Dashboard
+        </h1>
 
-        {/* Search */}
+        {/* Search Bar */}
         <input
           type="text"
-          placeholder="Search by phone..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="p-2 border rounded-lg w-full mb-4"
+          placeholder="Search by name or phone..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full mb-4 p-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
         />
 
-        {/* Add Customer Form */}
-        {showForm && user && (
-          <AddCustomerForm
-            userId={user.id}
-            onCustomerAdded={() => fetchCustomers(user.id)}
-            onClose={() => setShowForm(false)}
-          />
-        )}
-
         {/* Customer List */}
-        <CustomerList customers={filteredCustomers} />
+        {loading ? (
+          <p className="text-center text-gray-500">Loading customers...</p>
+        ) : (
+          <CustomerList customers={filteredCustomers} onRefresh={fetchCustomers} />
+        )}
       </div>
 
-      {/* Fixed Add Customer Button (same width as list container) */}
-      <div className="fixed bottom-0 left-0 w-full flex justify-center bg-gray-50 border-t shadow-md py-4">
-        <div className="w-full max-w-md px-4">
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="w-full bg-green-600 text-white py-3 rounded-lg hover:bg-green-700 transition"
-          >
-            {showForm ? "Close Form" : "Add Customer"}
-          </button>
+      {/* Add Customer Modal */}
+      {showForm && userId && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black/40 z-50">
+          <div className="bg-white p-6 rounded-xl w-full max-w-lg shadow-lg">
+            <AddCustomerForm
+              userId={userId}
+              onCustomerAdded={() => {
+                fetchCustomers();
+                setShowForm(false);
+              }}
+              onClose={() => setShowForm(false)}
+            />
+            <button
+              onClick={() => setShowForm(false)}
+              className="mt-3 text-gray-600 text-sm w-full hover:underline"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
+      )}
+
+      {/* Add Customer Button */}
+      <div className="fixed bottom-4 w-full flex justify-center">
+        <button
+          onClick={() => setShowForm(true)}
+          className="bg-blue-600 text-white py-3 font-semibold rounded-xl shadow-md max-w-lg w-full hover:bg-blue-700 transition"
+        >
+          + Add Customer
+        </button>
       </div>
     </div>
   );

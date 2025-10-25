@@ -14,7 +14,6 @@ export default function LoginPage() {
     e.preventDefault();
     setErrorMsg("");
 
-    // Login user
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -25,7 +24,6 @@ export default function LoginPage() {
       return;
     }
 
-    // ✅ Redirect to dashboard
     router.push("/dashboard");
   };
 
@@ -51,7 +49,7 @@ export default function LoginPage() {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 mb-4 border rounded-lg"
+          className="w-full p-2 mb-2 border rounded-lg"
           required
         />
 
@@ -64,7 +62,13 @@ export default function LoginPage() {
           Login
         </button>
 
-        <p className="text-sm text-center mt-4">
+        <div className="text-center mt-4">
+          <a href="/forgot-password" className="text-blue-600 hover:underline text-sm">
+            Forgot Password?
+          </a>
+        </div>
+
+        <p className="text-sm text-center mt-3">
           Don’t have an account?{" "}
           <a href="/signup" className="text-blue-600 hover:underline">
             Sign Up

@@ -6,7 +6,7 @@ import { supabase } from "../lib/supabaseClient";
 interface Props {
   userId: string;
   onCustomerAdded: () => void; // refresh callback
-  onClose: () => void;        // close form after submit
+  onClose: () => void;         // close form
 }
 
 export default function AddCustomerForm({ userId, onCustomerAdded, onClose }: Props) {
@@ -17,8 +17,14 @@ export default function AddCustomerForm({ userId, onCustomerAdded, onClose }: Pr
 
   const handleAddCustomer = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
     setError("");
+
+    if (!userId) {
+      setError("User not logged in.");
+      return;
+    }
+
+    setLoading(true);
 
     const { error } = await supabase.from("customers").insert([
       { user_id: userId, name, phone },
@@ -32,15 +38,12 @@ export default function AddCustomerForm({ userId, onCustomerAdded, onClose }: Pr
       setName("");
       setPhone("");
       onCustomerAdded(); // refresh customer list
-      onClose();         // close the form automatically
+      onClose();         // close form
     }
   };
 
   return (
-    <form
-      onSubmit={handleAddCustomer}
-      className="bg-white p-4 rounded-lg shadow mb-4 max-w-md mx-auto"
-    >
+    <form onSubmit={handleAddCustomer} className="bg-white p-4 rounded-lg shadow w-full max-w-lg mx-auto">
       <h2 className="text-lg font-semibold mb-2">Add Customer</h2>
       <input
         type="text"
@@ -61,7 +64,7 @@ export default function AddCustomerForm({ userId, onCustomerAdded, onClose }: Pr
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+        className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
       >
         {loading ? "Adding..." : "Add Customer"}
       </button>
