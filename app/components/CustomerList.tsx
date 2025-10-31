@@ -19,7 +19,7 @@ export default function CustomerList({ customers, onRefresh }: Props) {
   const router = useRouter();
   const [editingCustomer, setEditingCustomer] = useState<Customer | null>(null);
   const [editName, setEditName] = useState("");
-  const [editPhone, setEditPhone] = useState("");
+  const [editNumber, setEditNumber] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async (id: number) => {
@@ -34,7 +34,7 @@ export default function CustomerList({ customers, onRefresh }: Props) {
   const startEdit = (c: Customer) => {
     setEditingCustomer(c);
     setEditName(c.name);
-    setEditPhone(c.phone);
+    setEditNumber(c.phone);
   };
 
   const handleUpdate = async () => {
@@ -42,7 +42,7 @@ export default function CustomerList({ customers, onRefresh }: Props) {
     setLoading(true);
     const { error } = await supabase
       .from("customers")
-      .update({ name: editName, phone: editPhone })
+      .update({ name: editName, number: editNumber })
       .eq("id", editingCustomer.id);
     setLoading(false);
     if (error) alert(error.message);
@@ -90,7 +90,6 @@ export default function CustomerList({ customers, onRefresh }: Props) {
         </ul>
       )}
 
-      {/* Edit Modal */}
       {editingCustomer && (
         <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
           <div className="bg-white p-6 rounded-xl w-full max-w-lg shadow-lg">
@@ -104,9 +103,9 @@ export default function CustomerList({ customers, onRefresh }: Props) {
             />
             <input
               type="text"
-              value={editPhone}
-              onChange={(e) => setEditPhone(e.target.value)}
-              placeholder="Phone"
+              value={editNumber}
+              onChange={(e) => setEditNumber(e.target.value)}
+              placeholder="Number"
               className="w-full border p-2 rounded mb-4"
             />
             <div className="flex justify-between">

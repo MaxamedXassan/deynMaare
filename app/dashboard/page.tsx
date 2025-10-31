@@ -8,7 +8,7 @@ import CustomerList from "../components/CustomerList";
 interface Customer {
   id: number;
   name: string;
-  phone: string;
+  number: string;
 }
 
 export default function DashboardPage() {
@@ -17,20 +17,32 @@ export default function DashboardPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState<string | null>(null);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [userEmail, setUserEmail] = useState("");
 
-  // ✅ Get current userId
+  // Get current user
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser();
-      if (data.user) setUserId(data.user.id);
+      if (data.user) {
+        setUserId(data.user.id);
+        setUserEmail(data.user.email ?? "");
+        // Fetch subscription status
+        const { data: profileData } = await supabase
+          .from("profiles")
+          .select("is_subscribed")
+          .eq("id", data.user.id)
+          .single();
+        if (profileData) setIsSubscribed(profileData.is_subscribed);
+      }
     };
     getUser();
   }, []);
 
-  // ✅ Fetch customers
+  // Fetch customers
   const fetchCustomers = async () => {
-    setLoading(true);
     if (!userId) return;
+    setLoading(true);
     const { data, error } = await supabase
       .from("customers")
       .select("*")
@@ -44,25 +56,38 @@ export default function DashboardPage() {
     if (userId) fetchCustomers();
   }, [userId]);
 
-  // ✅ Filtered customers
   const filteredCustomers = customers.filter(
     (c) =>
       c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.phone.includes(searchTerm)
+      c.number.includes(searchTerm)
   );
+
+  // Logout function
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = "/login"; // redirect to login
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col items-center p-4">
       <div className="w-full max-w-lg">
         {/* Header */}
-        <h1 className="text-2xl font-semibold mb-4 text-center text-gray-800">
-          Customer Dashboard
-        </h1>
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-2xl font-semibold text-gray-800">
+            {isSubscribed ? "Subscribed" : "Free Trial"}
+          </h1>
+          <button
+            onClick={handleLogout}
+            className="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition"
+          >
+            Logout
+          </button>
+        </div>
 
         {/* Search Bar */}
         <input
           type="text"
-          placeholder="Search by name or phone..."
+          placeholder="Search by name or number..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           className="w-full mb-4 p-2 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
