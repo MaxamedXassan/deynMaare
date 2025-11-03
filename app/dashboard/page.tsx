@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import { supabase } from "../lib/supabaseClient";
 import AddCustomerForm from "../components/AddCustomerForm";
 import CustomerList from "../components/CustomerList";
-
+// import { Props } from "../types";
 
 interface Customer {
   id: number;
   name: string;
-  number: string;
+  phone: string;
 }
 
 export default function DashboardPage() {
@@ -60,7 +60,7 @@ export default function DashboardPage() {
   const filteredCustomers = customers.filter(
     (c) =>
       c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      c.number.includes(searchTerm)
+      c.phone.includes(searchTerm)
   );
 
   // Logout function
@@ -98,7 +98,7 @@ export default function DashboardPage() {
         {loading ? (
           <p className="text-center text-gray-500">Loading customers...</p>
         ) : (
-          <CustomerList customers={filteredCustomers} onRefresh={fetchCustomers} />
+          <CustomerList customers  ={filteredCustomers } onRefresh={fetchCustomers} />
         )}
       </div>
 

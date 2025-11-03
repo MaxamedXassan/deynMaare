@@ -1,9 +1,21 @@
 // types.ts
+// export interface Customer {
+//   id: number;       // SERIAL INT
+//   name: string;
+//   phone: string;
+//   user_id: string;  // UUID from auth.users
+// }
+
+
+export interface Props {
+  customers: Customer[];
+  onRefresh: () => void;
+}
+
 export interface Customer {
-  id: number;       // SERIAL INT
+  id: number;
   name: string;
   phone: string;
-  user_id: string;  // UUID from auth.users
 }
 
 export interface Debt {
@@ -17,7 +29,7 @@ export interface Debt {
 }
 
 
-interface Props {
-  customers: Customer[];
-  onRefresh: () => void;
-}
+// interface Props {
+//   customers: Customer[];
+//   onRefresh: () => void;
+// }
