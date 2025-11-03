@@ -15,3 +15,9 @@ export interface Debt {
   description: string;
   date_given: string;
 }
+
+
+interface Props {
+  customers: Customer[];
+  onRefresh: () => void;
+}

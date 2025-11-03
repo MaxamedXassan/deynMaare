@@ -88,16 +88,16 @@ export default function DebtList({
       {/* Total / Summary */}
       {debts.length > 0 && (
         <div className="bg-white p-4 mb-4 rounded-xl shadow flex justify-between text-sm font-medium">
-          <span>Total: ${total.toFixed(2)}</span>
-          <span className="text-green-600">Paid: ${paid.toFixed(2)}</span>
-          <span className="text-red-500">Unpaid: ${unpaid.toFixed(2)}</span>
+          <span>Wadar: ${total.toFixed(2)}</span>
+          <span className="text-green-600">Tan labixiyay: ${paid.toFixed(2)}</span>
+          <span className="text-red-500">Tan aanlabixin: ${unpaid.toFixed(2)}</span>
         </div>
       )}
 
       {/* Debts List */}
       <div className="space-y-3">
         {debts.length === 0 && (
-          <p className="text-center text-gray-500 mt-4">No debts yet.</p>
+          <p className="text-center text-gray-500 mt-4">Deyn mahaysatit kudar Deyn.</p>
         )}
 
         {debts.map((d) => (
@@ -138,7 +138,7 @@ export default function DebtList({
                   </p>
                   <p className="text-gray-600 text-sm">{d.description}</p>
                   <p className="text-gray-400 text-xs">
-                    Given: {new Date(d.created_at).toLocaleDateString()}
+                    Waqti labixiye: {new Date(d.created_at).toLocaleDateString()}
                   </p>
                 </div>
 
@@ -166,9 +166,9 @@ export default function DebtList({
                         onChange={(e) => handleStatusChange(d, e.target.value)}
                         className="border rounded-lg p-1 text-sm"
                       >
-                        <option value="unpaid">Unpaid</option>
-                        <option value="partial">Partial</option>
-                        <option value="paid">Paid</option>
+                        <option value="unpaid">Aan la bixin</option>
+                        <option value="partial">Qeeb labixiya</option>
+                        <option value="paid">Waa la bixiyay</option>
                       </select>
 
                       <button onClick={() => {
@@ -197,7 +197,7 @@ export default function DebtList({
           onClick={() => document.dispatchEvent(new CustomEvent("openAddDebtForm"))}
           className="w-full bg-blue-600 text-white py-3 rounded-xl shadow-md hover:bg-blue-700 transition"
         >
-          + Add Debt
+          + Kudar Deyn
         </button>
       </div>
     </div>

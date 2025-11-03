@@ -5,6 +5,7 @@ import { supabase } from "../lib/supabaseClient";
 import AddCustomerForm from "../components/AddCustomerForm";
 import CustomerList from "../components/CustomerList";
 
+
 interface Customer {
   id: number;
   name: string;
@@ -129,7 +130,7 @@ export default function DashboardPage() {
           onClick={() => setShowForm(true)}
           className="bg-blue-600 text-white py-3 font-semibold rounded-xl shadow-md max-w-lg w-full hover:bg-blue-700 transition"
         >
-          + Add Customer
+          + Kuadar Macmiil
         </button>
       </div>
     </div>

@@ -62,10 +62,10 @@ export default function CustomerDashboard({
             onClick={() => router.push("/dashboard")}
             className="text-blue-600 text-sm hover:underline"
           >
-            ← Back
+            ← Dib U Laabo
           </button>
           <h1 className="text-xl font-semibold text-gray-800">
-            {customerName ? `${customerName}'s Debts` : "Customer Debts"}
+            {customerName ? `${customerName}' Deyntiisa` : "Customer Debts"}
           </h1>
         </div>
 

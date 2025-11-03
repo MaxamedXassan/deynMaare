@@ -5,15 +5,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { HiMenu, HiX } from "react-icons/hi";
 
-
 export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800">
+    <div className="w-full min-h-screen flex flex-col bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800">
       {/* Navbar */}
-      <header className="flex justify-between items-center px-6 py-4 shadow-sm bg-white relative z-50">
+      <header className="flex justify-between items-center px-6 py-4 shadow-sm bg-white fixed top-0 left-0 w-full z-50">
         <h1 className="text-2xl font-bold text-blue-600">DeynMaare</h1>
 
         {/* Desktop Menu */}
@@ -23,7 +22,7 @@ export default function Home() {
           <Link href="/login" className="hover:text-blue-600 font-semibold">Login</Link>
         </nav>
 
-        {/* Hamburger Mobile */}
+        {/* Hamburger Menu for Mobile */}
         <div className="md:hidden">
           <button onClick={toggleMenu}>
             {menuOpen ? <HiX size={28} /> : <HiMenu size={28} />}
@@ -38,30 +37,32 @@ export default function Home() {
             className="absolute top-full left-0 w-full bg-white shadow-md flex flex-col items-center py-4 space-y-4 md:hidden"
           >
             <Link href="#features" className="hover:text-blue-600" onClick={() => setMenuOpen(false)}>Features</Link>
-            <Link href="/pricing" className="hover:text-blue-600" onClick={() => setMenuOpen(false)}>Pricing</Link>
+            <Link href="#pricing" className="hover:text-blue-600" onClick={() => setMenuOpen(false)}>Pricing</Link>
             <Link href="/login" className="hover:text-blue-600 font-semibold" onClick={() => setMenuOpen(false)}>Login</Link>
           </motion.nav>
         )}
       </header>
 
-      {/* Hero Section */}
-      <main className="flex flex-col items-center justify-center flex-1 text-center px-6 md:px-12 mt-10 md:mt-20">
+      {/* Hero Section (Full Screen) */}
+      <main className=" w-full  flex flex-col items-center justify-center flex-1 min-h-screen text-center px-6 md:px-12 pt-24 md:pt-32">
         <motion.h2
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-4 md:mb-6 leading-tight"
         >
-          Manage Your Debts <span className="text-blue-600">Smartly</span>
+          Maaray <span className="text-blue-600">Deymahada </span>  Si Fudud oo Hufan 
         </motion.h2>
+        
 
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 md:mb-8 max-w-xl md:max-w-2xl"
+          className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 md:mb-8 max-w-3xl"
         >
-          DeynMaare helps small businesses easily track customers and debts — all in one simple dashboard.
+          DeynMaare waa app casri ah oo loogu talagalay ganacsatada iyo dadka amaahiya lacag si ay si habaysan u maareeyaan deymaha ay bixiyeen ama ay qaadeen.
+App-kan wuxuu kuu sahlayaa inaad si fudud u diiwaangeliso, u raadraacdo, uguna xisaabtanto deymaha, iyadoo laga fogaanayo qormooyin buug gacmeed ah ama khasaaro xogeed.
         </motion.p>
 
         <motion.div
@@ -87,7 +88,7 @@ export default function Home() {
       </main>
 
       {/* Features Section */}
-      <section id="features" className="mt-20 max-w-6xl mx-auto px-6 md:px-12 grid gap-8 sm:grid-cols-2 md:grid-cols-3">
+      {/* <section id="features" className="mt-10 md:mt-20 max-w-6xl mx-auto px-6 md:px-12 grid gap-8 sm:grid-cols-2 md:grid-cols-3">
         {[
           {
             title: "Simple Customer Management",
@@ -114,39 +115,6 @@ export default function Home() {
             <p className="text-gray-600">{feature.desc}</p>
           </motion.div>
         ))}
-      </section>
-
-      {/* Pricing Section (Single Price Plan) */}
-      {/* <section id="pricing" className="mt-20 max-w-3xl mx-auto px-6 md:px-12 text-center">
-        <h2 className="text-3xl md:text-4xl font-bold mb-10">Start Your 14-Day Free Trial</h2>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="bg-white p-8 rounded-2xl shadow-md hover:shadow-lg transition-all"
-        >
-          <h3 className="text-2xl font-semibold mb-4 text-blue-700">Free Trial</h3>
-          <p className="text-gray-600 mb-4">Try DeynMaare free for 14 days. No credit card required.</p>
-          <p className="text-3xl font-bold mb-6">$29 / month after trial</p>
-
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              href="/signup"
-              className="px-6 py-3 bg-blue-600 text-white font-semibold rounded-full shadow hover:bg-blue-700 transition"
-            >
-              Start Free Trial
-            </Link>
-
-            <Link
-              href="/buy"
-              className="px-6 py-3 border border-blue-600 text-blue-600 font-semibold rounded-full hover:bg-blue-50 transition"
-            >
-              Buy Now
-            </Link>
-          </div>
-        </motion.div>
       </section> */}
 
       {/* Footer */}

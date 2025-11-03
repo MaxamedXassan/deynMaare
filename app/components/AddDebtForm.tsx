@@ -55,15 +55,15 @@ export default function AddDebtForm({
 
   return (
     <form onSubmit={handleSubmit} className="bg-white p-4 rounded-xl shadow w-full">
-      <h3 className="text-lg font-semibold mb-3">Add New Debt</h3>
-      <input type="number" step="0.01" placeholder="Amount" value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full mb-2 p-2 border rounded-lg" required />
-      <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} className="w-full mb-2 p-2 border rounded-lg" required />
+      <h3 className="text-lg font-semibold mb-3">Kudar Deyn cusub</h3>
+      <input type="number" step="0.01" placeholder="Lacagta" value={amount} onChange={(e) => setAmount(e.target.value)} className="w-full mb-2 p-2 border rounded-lg" required />
+      <input type="text" placeholder="Faah Faahin(muxu ku qatay)" value={description} onChange={(e) => setDescription(e.target.value)} className="w-full mb-2 p-2 border rounded-lg" required />
       <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} className="w-full mb-3 p-2 border rounded-lg" />
 
       {errorMsg && <p className="text-red-600 text-sm mb-2">{errorMsg}</p>}
 
       <button type="submit" disabled={loading} className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
-        {loading ? "Saving..." : "Add Debt"}
+        {loading ? "Saving..." : "Kudar Deyn"}
       </button>
     </form>
   );

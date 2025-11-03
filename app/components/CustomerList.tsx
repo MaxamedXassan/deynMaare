@@ -42,7 +42,7 @@ export default function CustomerList({ customers, onRefresh }: Props) {
     setLoading(true);
     const { error } = await supabase
       .from("customers")
-      .update({ name: editName, number: editNumber })
+      .update({ name: editName, phone: editNumber })
       .eq("id", editingCustomer.id);
     setLoading(false);
     if (error) alert(error.message);
@@ -54,10 +54,10 @@ export default function CustomerList({ customers, onRefresh }: Props) {
 
   return (
     <div className="bg-white p-4 rounded-lg shadow w-full">
-      <h2 className="text-lg font-semibold mb-3">Your Customers</h2>
+      <h3 className="text-xl font-semibold mb-3 text-blue-400">Dhamaan Macamishada</h3>
 
       {customers.length === 0 ? (
-        <p>No customers yet.</p>
+        <p>macmiil ma haysatit Kudar macmiil.</p>
       ) : (
         <ul>
           {customers.map((c) => (

@@ -44,18 +44,18 @@ export default function AddCustomerForm({ userId, onCustomerAdded, onClose }: Pr
 
   return (
     <form onSubmit={handleAddCustomer} className="bg-white p-4 rounded-lg shadow w-full max-w-lg mx-auto">
-      <h2 className="text-lg font-semibold mb-2">Add Customer</h2>
+      <h2 className="text-lg font-semibold mb-2">Kudar Macmiil Cusub</h2>
       <input
         type="text"
-        placeholder="Customer Name"
+        placeholder="Magaca Macmiilka"
         value={name}
         onChange={(e) => setName(e.target.value)}
         className="w-full p-2 mb-2 border rounded-lg"
         required
       />
       <input
-        type="text"
-        placeholder="Customer Phone"
+        type="number"
+        placeholder="Numberka Macmiilka"
         value={phone}
         onChange={(e) => setPhone(e.target.value)}
         className="w-full p-2 mb-2 border rounded-lg"
@@ -66,7 +66,7 @@ export default function AddCustomerForm({ userId, onCustomerAdded, onClose }: Pr
         disabled={loading}
         className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
       >
-        {loading ? "Adding..." : "Add Customer"}
+        {loading ? "Adding..." : "Kudar Deyn"}
       </button>
       {error && <p className="text-red-600 mt-2">{error}</p>}
     </form>
